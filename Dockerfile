@@ -1,5 +1,8 @@
 FROM python:3.8.5-alpine
 
+RUN apk update
+RUN apk add make automake gcc g++ subversion
+
 WORKDIR /app
 
 # By copying over requirements first, we make sure that Docker will cache
