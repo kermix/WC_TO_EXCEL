@@ -51,11 +51,11 @@ def get_category(category_id=None, **kwargs):
 def get_variants_as_products(product_id=None, fieldset=[], product_get_params={}, variant_get_params={}):
     products = get_product(product_id, **product_get_params)
     for pd in products:
-        logger.info(f'Downloading product {prod_id}')
         prod_id = pd['id']
+        logger.info(f'Downloading product {prod_id}')
         if 'type' in pd and pd['type'] == 'variable':
             variants = get_product_variants(prod_id, **variant_get_params)
             for pvd in variants:
-                logger.info(f"Downloading variant {variant_id} of product {prod_id}")
                 variant_id = pvd['id']
+                logger.info(f"Downloading variant {variant_id} of product {prod_id}")
                 continue
