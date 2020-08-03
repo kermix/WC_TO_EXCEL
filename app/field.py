@@ -16,7 +16,7 @@ class Field:
 
     def value_from_dict(self, dictionary, filter_func=None):
         if filter_func is not None and not callable(filter_func):
-            raise TypeError(f'filter_func is {type(filter_func)} object and is not callable')
+            raise TypeError(f"filter_func is '{type(filter_func)}' object and is not callable")
 
         try:
             self.value = dictionary[self.key_name]
@@ -29,7 +29,7 @@ class Field:
 class MetaField(Field):
     def value_from_dict(self, dictionary, filter_func=None):
         if filter_func is not None and not callable(filter_func):
-            raise TypeError(f'filter_func is {type(filter_func)} object and is not callable')
+            raise TypeError(f"filter_func is '{type(filter_func)}' object and is not callable")
 
         if "meta_data" not in dictionary:
             raise KeyError("Key meta_data is not present in supplied dictionary.\n"
