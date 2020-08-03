@@ -1,5 +1,3 @@
-from api import wcapi
+from api import get_variants_as_products
 
-d = wcapi.get("products").json()
-
-print(d)
+d = get_variants_as_products()
