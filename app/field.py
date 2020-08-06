@@ -44,3 +44,41 @@ class MetaField(Field):
                 self.value = filter_func(self.value)
         except KeyError:
             self.value = DEFAULT_FIELD_VALUE
+
+class VariantAttributeField(MetaField):
+    def __init__(self, variant_names="", optional_meta_name="", importance_level="", field_name=""):
+        if not isinstance(variant_names, (str, list, tuple)):
+            raise TypeError(f"variant_names is '{type(variant_names)} object. It should be string or list.")
+
+        if not variant_names:
+            raise AttributeError("variant names should be set.")
+
+        self.variant_names = variant_names
+        self.has_meta_fallback = False if not optional_meta_name else True
+
+
+        super(VariantAttributeField, self).__init__(
+            key_name=" " if not self.has_meta_fallback else optional_meta_name,
+            importance_level=importance_level,
+            field_name=field_name)
+
+    def value_from_dict(self, variant_dictionary, field_dictionary, filter_func=None):
+        try:
+            return next((
+                attrib['option'] for attrib in variant_dictionary['attributes']
+                if (
+                        isinstance(self.variant_names, str) and
+                        'name' in attrib and
+                        attrib['name'] == self.variant_names and
+                        'option' in attrib
+                    ) or (
+                        isinstance(self.variant_names, (list, tuple)) and
+                        'name' in attrib and
+                        attrib['name'] in self.variant_names and
+                        'option' in attrib
+                    )
+            ))
+        except StopIteration:
+            if self.has_meta_fallback:
+                return super(VariantAttributeField, self).value_from_dict(field_dictionary, filter_func)
+            return DEFAULT_FIELD_VALUE
