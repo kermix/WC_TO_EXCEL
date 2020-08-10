@@ -16,7 +16,7 @@ def get_header_from_field_set(self):
 
 def get_required_field_set():
     return [Field(key_name='name', importance_level="Required", field_name='Name'),
-    Field(key_name='sku', importance_level="Required", field_name='Catalog Number'),
+    VariantAttributeField(variant_names=('sku',), optional_meta_name='sku', importance_level="Required", field_name='Catalog Number'),
     Field(key_name='permalink', importance_level="Required", field_name='URL'),
     VariantAttributeField(variant_names=('Classes', 'Quantity', 'Exctractions', 'Unit', 'Reactions',
                                          'Weight', 'Volume'),
