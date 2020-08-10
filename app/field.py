@@ -79,7 +79,7 @@ class VariantAttributeField(MetaField):
 
     def value_from_dict(self, variant_dictionary, field_dictionary, filter_func=None):
         try:
-            return next((
+            self.value = next((
                 attrib['option'] for attrib in variant_dictionary['attributes']
                 if (
                         isinstance(self.variant_names, str) and
@@ -95,5 +95,5 @@ class VariantAttributeField(MetaField):
             ))
         except StopIteration:
             if self.has_meta_fallback:
-                return super(VariantAttributeField, self).value_from_dict(field_dictionary, filter_func)
-            return DEFAULT_FIELD_VALUE
+                super(VariantAttributeField, self).value_from_dict(field_dictionary, filter_func)
+            self.value = DEFAULT_FIELD_VALUE
