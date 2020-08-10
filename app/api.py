@@ -4,6 +4,10 @@ from settings import *
 
 from misc import safe_cast, logger
 
+from product import Product
+
+from field import VariantAttributeField
+
 wcapi = API(
     url=WEBSITE_URL,
     consumer_key=CONSUMER_KEY,
@@ -49,13 +53,22 @@ def get_category(category_id=None, **kwargs):
 
 
 def get_variants_as_products(product_id=None, fieldset=[], product_get_params={}, variant_get_params={}):
+    product_set = []
+    logger.info(f'Downloading product{"s" if product_id is None else f" {product_id}"}')
     products = get_product(product_id, **product_get_params)
     for pd in products:
         prod_id = pd['id']
-        logger.info(f'Downloading product {prod_id}')
         if 'type' in pd and pd['type'] == 'variable':
+            logger.info(f"Downloading variants of product {prod_id}")
             variants = get_product_variants(prod_id, **variant_get_params)
             for pvd in variants:
-                variant_id = pvd['id']
-                logger.info(f"Downloading variant {variant_id} of product {prod_id}")
-                continue
+                product = Product()
+                product.fields = fieldset
+                for field in product.fields:
+                    if not isinstance(field, VariantAttributeField):
+                        field.value_from_dict(pd)
+                    else:
+                        field.value_from_dict(pvd, pd)
+                product_set.append(product)
+    return product_set
+
