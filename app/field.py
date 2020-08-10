@@ -1,7 +1,8 @@
 from settings import DEFAULT_FIELD_VALUE
 
+from copy import copy, deepcopy
 
-class Field:
+class Field(object):
     def __init__(self, key_name="", importance_level="", field_name=""):
         if not isinstance(key_name, str) or not isinstance(importance_level, str) or not isinstance(field_name, str):
             raise TypeError("All parameters should be string")
@@ -13,6 +14,20 @@ class Field:
         self.importance_level = importance_level
         self.field_name = field_name
         self.value = DEFAULT_FIELD_VALUE
+
+    def __copy__(self):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        result.__dict__.update(self.__dict__)
+        return result
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
 
     def value_from_dict(self, dictionary, filter_func=None):
         if filter_func is not None and not callable(filter_func):
