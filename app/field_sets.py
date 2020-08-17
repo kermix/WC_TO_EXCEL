@@ -5,10 +5,10 @@ from field_filters import *
 
 # Project is optimised for BioCompare DB format
 
-def get_header_from_field_set(self):
+def get_header_from_field_set(fields):
     importance_levels = []
     field_header = []
-    for field in self.fields:
+    for field in fields:
         importance_levels.append(field.importance_level)
         field_header.append(field.field_name)
     return importance_levels, field_header
