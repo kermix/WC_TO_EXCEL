@@ -28,7 +28,7 @@ class Product:
 
         self.__fields.append(copy(field))
 
-    def to_serie(self):
+    def to_series(self):
         importance_levels = [field.importance_level for field in self.fields]
         headers = [field.field_name for field in self.fields]
 
