@@ -29,5 +29,13 @@ class Product:
         self.__fields.append(copy(field))
 
     def to_serie(self):
-        pass
+        importance_levels = [field.importance_level for field in self.fields]
+        headers = [field.field_name for field in self.fields]
+
+        serie = pd.Series(index=pd.MultiIndex.from_arrays((importance_levels, headers)))
+
+        for field in self.fields:
+            serie[field.importance_level, field.field_name] = field.value
+
+        return serie
 
