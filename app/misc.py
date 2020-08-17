@@ -16,8 +16,15 @@ def __setup_logger(name):
 
 logger = __setup_logger(__name__)
 
+
 def safe_cast(val, to_type, default=None):
     try:
         return to_type(val)
     except (ValueError, TypeError):
         return default
+
+
+def to_comma_separated_string(value):
+    if isinstance(value, (list, tuple, set)):
+        return ','.join(str(x) for x in value)
+    return str(value)
