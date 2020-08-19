@@ -3,7 +3,7 @@ from settings import DEFAULT_FIELD_VALUE
 from copy import copy, deepcopy
 
 class Field(object):
-    def __init__(self, key_name="", importance_level="", field_name=""):
+    def __init__(self, key_name="", importance_level="", field_name="", variant_field=False):
         if not isinstance(key_name, str) or not isinstance(importance_level, str) or not isinstance(field_name, str):
             raise TypeError("All parameters should be string")
 
@@ -14,6 +14,7 @@ class Field(object):
         self.importance_level = importance_level
         self.field_name = field_name
         self.value = DEFAULT_FIELD_VALUE
+        self.__variant_field = variant_field
 
     def __copy__(self):
         cls = self.__class__
@@ -40,8 +41,14 @@ class Field(object):
         except KeyError:
             self.value = DEFAULT_FIELD_VALUE
 
+    def is_variant_field(self):
+        return self.__variant_field
+
 
 class MetaField(Field):
+    def __init__(self, key_name="", importance_level="", field_name=""):
+        super(MetaField, self).__init__(key_name, importance_level, field_name)
+
     def value_from_dict(self, dictionary, filter_func=None):
         if filter_func is not None and not callable(filter_func):
             raise TypeError(f"filter_func is '{type(filter_func)}' object and is not callable")
@@ -60,6 +67,7 @@ class MetaField(Field):
         except (KeyError, StopIteration):
             super(MetaField, self).value_from_dict(dictionary, filter_func)
 
+
 class VariantAttributeField(MetaField):
     def __init__(self, variant_names="", optional_meta_name="", importance_level="", field_name=""):
         if not isinstance(variant_names, (str, list, tuple)):
@@ -70,7 +78,6 @@ class VariantAttributeField(MetaField):
 
         self.variant_names = variant_names
         self.has_fallback = False if not optional_meta_name else True
-
 
         super(VariantAttributeField, self).__init__(
             key_name=" " if not self.has_fallback else optional_meta_name,
@@ -93,6 +100,9 @@ class VariantAttributeField(MetaField):
                         'option' in attrib
                     )
             ))
+
+            if filter_func is not None:
+                self.value = filter_func(self.value)
         except StopIteration:
             if self.has_fallback:
                 try:

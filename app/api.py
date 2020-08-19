@@ -66,7 +66,10 @@ def get_variants_as_products(product_id=None, fieldset=[], product_get_params={}
                 product.fields = fieldset
                 for field in product.fields:
                     if not isinstance(field, VariantAttributeField):
-                        field.value_from_dict(pd)
+                        if field.is_variant_field():
+                            field.value_from_dict(pvd)
+                        else:
+                            field.value_from_dict(pd)
                     else:
                         field.value_from_dict(pvd, pd)
                 product_set.append(product)
