@@ -6,7 +6,14 @@ from category_sets import CategorySet
 
 # Project is optimised for BioCompare DB format
 
-cs = CategorySet(categories=48, exclude=[1004, 991], fieldset=get_enzymes_field_set())
-cs.populate_data()
+sets = [
+    (CategorySet(categories=48, exclude=[1004, 991, 4961], fieldset=get_enzymes_field_set()),
+     "Enzymes",
+     "enzymes.xlsx"),
 
-df = cs.to_dataframe()
+    ]
+
+
+for cs, sheet_name, file_name in sets:
+    cs.populate_data()
+    cs.save(filename=file_name, sheet_name=sheet_name)

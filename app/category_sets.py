@@ -29,3 +29,10 @@ class CategorySet:
             df = df.append(series, ignore_index=True)
         return df
 
+    def save(self, df=None, sheet_name="Sheet1", filename="dataset.xlsx"):
+        if df is None:
+            df = self.to_dataframe()
+
+        df.to_excel(filename, sheet_name=sheet_name)
+
+
