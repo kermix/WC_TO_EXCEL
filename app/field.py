@@ -84,7 +84,7 @@ class VariantAttributeField(MetaField):
             importance_level=importance_level,
             field_name=field_name)
 
-    def value_from_dict(self, variant_dictionary, field_dictionary, filter_func=None):
+    def value_from_dict(self, variant_dictionary={}, field_dictionary={}, filter_func=None):
         try:
             self.value = next((
                 attrib['option'] for attrib in variant_dictionary['attributes']

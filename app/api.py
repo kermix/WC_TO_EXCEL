@@ -73,5 +73,11 @@ def get_variants_as_products(product_id=None, fieldset=[], product_get_params={}
                     else:
                         field.value_from_dict(pvd, pd)
                 product_set.append(product)
+        else:
+            product = Product()
+            product.fields = fieldset
+            for field in product.fields:
+                field.value_from_dict(pd)
+            product_set.append(product)
     return product_set
 
