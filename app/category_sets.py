@@ -4,8 +4,10 @@ from api import get_variants_as_products
 
 from misc import to_comma_separated_string
 
+from field_sets import get_header_from_field_set
+
 class CategorySet:
-    def __init__(self, categories, exclude, fieldset):
+    def __init__(self, categories, fieldset, exclude=[]):
         self.categories = categories
         self.exclude = exclude
         self.fieldset = fieldset
@@ -22,7 +24,7 @@ class CategorySet:
                             })
 
     def to_dataframe(self):
-        df = pd.DataFrame()
+        df = pd.DataFrame(columns=get_header_from_field_set(self.fieldset))
 
         for product in self.dataset:
             series = product.to_series()
