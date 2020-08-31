@@ -1,6 +1,8 @@
 version: '2'
 services:
     app:
+        environment:
+            TZ: Europe/Warsaw
         build: .
         volumes:
             - .:/app

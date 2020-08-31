@@ -1,7 +1,4 @@
-FROM python:3.8.5-alpine
-
-RUN apk update
-RUN apk add make automake gcc g++ subversion
+FROM python:3.8-slim-buster
 
 WORKDIR /app
 

@@ -1,3 +1,4 @@
 woocommerce
 pandas
 openpyxl
+beautifulsoup4
