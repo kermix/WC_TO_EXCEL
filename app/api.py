@@ -45,7 +45,8 @@ def get_category(category_id=None, **kwargs):
     else:
         safe_category_id = safe_cast(category_id, int, 0)
         if not safe_category_id:
-            raise AttributeError("product_id should be integer larger than 0")
+            logger.warn("category_id should be integer larger than 0")
+            return ""
 
     logger.debug(f"Getting variants from endpoint: products/categories/{safe_category_id}")
     return wcapi.get(f'products/categories/{safe_category_id}',
