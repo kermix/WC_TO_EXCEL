@@ -8,6 +8,8 @@ from product import Product
 
 from field import VariantAttributeField
 
+from functools import lru_cache
+
 wcapi = API(
     url=WEBSITE_URL,
     consumer_key=CONSUMER_KEY,
@@ -39,16 +41,18 @@ def get_product_variants(product_id=None, **kwargs):
                      params={'per_page': 99, 'status': 'publish', **kwargs}).json()
 
 
+@lru_cache
 def get_category(category_id=None, **kwargs):
     if category_id is None:
         safe_category_id = ""
     else:
         safe_category_id = safe_cast(category_id, int, 0)
-        if not safe_category_id:
-            logger.warn("category_id should be integer larger than 0")
-            return ""
 
-    logger.debug(f"Getting variants from endpoint: products/categories/{safe_category_id}")
+    if not safe_category_id:
+        logger.warn(f"{category_id} is not proper category_id. That is not going to be queried.")
+        return ""
+
+    logger.debug(f"Getting categories from endpoint: products/categories/{safe_category_id}")
     return wcapi.get(f'products/categories/{safe_category_id}',
                      params={'per_page': 99, 'status': 'publish', **kwargs}).json()
 
