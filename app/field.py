@@ -67,7 +67,7 @@ class MetaField(Field):
             if self.filter_func is not None:
                 self.value = self.filter_func(self.value)
         except (KeyError, StopIteration):
-            super(MetaField, self).value_from_dict(dictionary, self.filter_func)
+            super(MetaField, self).value_from_dict(dictionary)
 
 
 class VariantAttributeField(MetaField):
@@ -111,9 +111,9 @@ class VariantAttributeField(MetaField):
             except StopIteration:
                 if self.has_fallback:
                     try:
-                        super(VariantAttributeField, self).value_from_dict(variant_dictionary, self.filter_func)
+                        super(VariantAttributeField, self).value_from_dict(variant_dictionary)
                     except KeyError:
-                        super(VariantAttributeField, self).value_from_dict(field_dictionary, self.filter_func)
+                        super(VariantAttributeField, self).value_from_dict(field_dictionary)
         else:
             self.value = " ".join(attributes)
 
