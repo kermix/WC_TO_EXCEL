@@ -2,6 +2,8 @@ from settings import DEFAULT_FIELD_VALUE
 
 from copy import copy, deepcopy
 
+import re
+
 
 class Field(object):
     def __init__(self, key_name="", importance_level="", field_name="", filter_func=None, variant_field=False):
@@ -15,8 +17,16 @@ class Field(object):
         self.importance_level = importance_level
         self.field_name = field_name
         self.filter_func = filter_func
-        self.value = DEFAULT_FIELD_VALUE
+        self.__value = DEFAULT_FIELD_VALUE
         self.__variant_field = variant_field
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, val):
+        self.__value = re.sub(r'\s+', ' ', val).strip()
 
     def __copy__(self):
         cls = self.__class__
