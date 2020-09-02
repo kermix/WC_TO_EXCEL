@@ -26,7 +26,7 @@ class Field(object):
 
     @value.setter
     def value(self, val):
-        self.__value = re.sub(r'\s+', ' ', val).strip()
+        self.__value = re.sub(r' +', ' ', val).strip()
 
     def __copy__(self):
         cls = self.__class__
