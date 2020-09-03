@@ -64,7 +64,7 @@ def get_variants_as_products(product_id=None, fieldset=[], product_get_params={}
     for pd in products:
         prod_id = pd['id']
         if 'type' in pd and pd['type'] == 'variable':
-            logger.info(f"Downloading variants of product {prod_id}")
+            logger.info(f"Downloading variants of product '{prod_id}'")
             variants = get_product_variants(prod_id, **variant_get_params)
             for pvd in variants:
                 product = Product()

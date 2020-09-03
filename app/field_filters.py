@@ -33,7 +33,7 @@ def category_id_to_category_name(id):
     if 'name' in d:
         return d['name']
 
-    logger.warn(f"Cannot find name for category id {id}. Saving just category id.")
+    logger.warn(f"Cannot find name for category id '{id}'. Saving just category id.")
     return id
 
 
