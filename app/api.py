@@ -49,7 +49,7 @@ def get_category(category_id=None, **kwargs):
         safe_category_id = safe_cast(category_id, int, 0)
 
     if not safe_category_id:
-        logger.warn(f"{category_id} is not proper category_id. That is not going to be queried.")
+        logger.warn(f"'{category_id}' is not proper category_id. That is not going to be queried.")
         return ""
 
     logger.debug(f"Getting categories from endpoint: products/categories/{safe_category_id}")
