@@ -55,6 +55,8 @@ def merge_db(db_filename):
                 db_ws.delete_cols(1)
                 db_ws.delete_rows(3)
 
+    ws = db_wb.get_sheet_by_name('Sheet')
+    db_wb.remove_sheet(ws)
     db_wb.save(str(db_filename))
 
 
