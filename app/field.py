@@ -4,6 +4,8 @@ from copy import copy, deepcopy
 
 import re
 
+import html
+
 
 class Field(object):
     def __init__(self, key_name="", importance_level="", field_name="", filter_func=None, variant_field=False):
@@ -26,7 +28,7 @@ class Field(object):
 
     @value.setter
     def value(self, val):
-        self.__value = re.sub(r' +', ' ', val).strip()
+        self.__value = html.unescape(re.sub(r' +', ' ', val).strip())
 
     def __copy__(self):
         cls = self.__class__
