@@ -18,7 +18,7 @@ from misc import merge_db
 sets = [
     (CategorySet(categories=48, exclude=[1004, 991, 4961], fieldset=get_enzymes_field_set()),
      "Enzymes",
-     "enzymes.xlsx")
+     "enzymes.xlsx"),
     ]
 
 
@@ -29,4 +29,4 @@ for cs, sheet_name, file_name in sets:
     df = df.drop('Variant Name', axis=1, level=1)
     cs.save(df=df, filename=file_name, sheet_name=sheet_name)
 
-merge_db("database.xlsx")
+merge_db("database")
