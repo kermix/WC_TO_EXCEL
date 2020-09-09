@@ -40,4 +40,5 @@ def category_id_to_category_name(id):
 def format_pcr_instruments_column(s):
     s = re.sub(r'^(.*:)\s+', r'\1 ', s, flags=re.MULTILINE)
     s = re.sub(r'\n+', r'; ', s, flags=re.MULTILINE)
-    return s
+    s = re.sub(r'(;\s*)+', '; ', s)
+    return s.replace('\r', '')
